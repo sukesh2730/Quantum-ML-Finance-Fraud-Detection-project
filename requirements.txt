@@ -1,0 +1,27 @@
+# Quantum Computing Framework
+pennylane>=0.32.0
+
+# Classical Machine Learning and Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# AWS Deployment
+boto3>=1.28.0
+sagemaker>=2.180.0
+
+# Serialization
+joblib>=1.3.0
+
+# Utilities
+pyyaml>=6.0
+
+# Web Interface
+streamlit>=1.28.0
+plotly>=5.17.0
+
+# Development Dependencies
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.7.0
+flake8>=6.1.0

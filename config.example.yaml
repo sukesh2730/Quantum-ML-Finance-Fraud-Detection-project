@@ -1,0 +1,48 @@
+# Example Configuration File for Quantum ML Fraud Detector
+# Copy this to config.yaml and customize as needed
+
+# Quantum Circuit Configuration
+quantum:
+  n_qubits: 4              # Number of qubits (must match number of features)
+  n_layers: 2              # Depth of variational circuit layers
+  device: "default.qubit"  # Quantum device: "default.qubit", "lightning.qubit", or hardware
+
+# Training Configuration
+training:
+  epochs: 30               # Number of training epochs
+  learning_rate: 0.01      # Optimizer learning rate
+  batch_size: 32           # Batch size (not currently used, full-batch training)
+  optimizer: "adam"        # Optimizer: "adam", "sgd", or "nesterov"
+
+# Data Preprocessing Configuration
+preprocessing:
+  # Categorical features (will be label-encoded)
+  categorical_columns:
+    - merchant_category
+  
+  # Numerical features (will be scaled to [0, π])
+  numerical_columns:
+    - amount
+    - time_of_day
+    - distance_from_home
+  
+  # Missing value handling strategy
+  handle_missing: "mean"   # Options: "mean", "median", "drop"
+
+# Model Configuration
+model:
+  save_dir: "./saved_model"         # Directory to save trained models
+  auto_save: true                   # Automatically save after training
+  save_history: true                # Save training history as JSON
+
+# Inference Configuration  
+inference:
+  threshold: 0.5           # Classification threshold (score > threshold = fraud)
+  batch_size: 1            # Inference batch size for predict_batch
+
+# Logging Configuration
+logging:
+  level: "INFO"            # Log level: DEBUG, INFO, WARNING, ERROR
+  format: "json"           # Log format: "json" or "text"
+  output: "stdout"         # Log output: "stdout", "file", or "both"
+  file_path: "./logs/fraud_detector.log"  # Log file path (if output includes "file")

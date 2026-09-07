@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Model artifacts
+*.pkl
+*.npy
+*.h5
+*.tar.gz
+models/
+checkpoints/
+
+# AWS
+.aws/
+*.pem
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+
+# Configuration (potentially sensitive)
+config.yaml
+config.json
+
+# Data files
+data/
+*.csv
+*.json
+!config.example.yaml
+!config.example.json
