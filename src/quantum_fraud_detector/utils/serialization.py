@@ -48,7 +48,7 @@ def save_model(
         Requirements 6.1, 6.2: Serialize Model_Parameters and preprocessing state
     """
     # Validate model has parameters
-    if model.params is None:
+    if model.weights is None:
         raise ValueError(
             "Model parameters must be initialized before saving. "
             "Train the model first or call model.initialize_params()."
@@ -66,13 +66,13 @@ def save_model(
     
     # Save VQC parameters as numpy array
     params_path = os.path.join(save_dir, "model_params.npy")
-    np.save(params_path, model.params)
+    np.save(params_path, model.weights)
     
     # Save VQC configuration as JSON
     config = {
         "n_qubits": model.n_qubits,
         "n_layers": model.n_layers,
-        "device_name": model.device_name  # Now stored as attribute
+        "device_name": model.qnode.device.name  # Now stored as attribute
     }
     config_path = os.path.join(save_dir, "model_config.json")
     with open(config_path, 'w') as f:
