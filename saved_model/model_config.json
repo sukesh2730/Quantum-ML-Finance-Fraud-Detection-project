@@ -1,0 +1,5 @@
+{
+  "n_qubits": 4,
+  "n_layers": 2,
+  "device_name": "default.qubit"
+}

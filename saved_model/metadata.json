@@ -1,0 +1,5 @@
+{
+  "dataset": "OpenML Credit Card Fraud (ID 1597)",
+  "samples": 4000,
+  "test_accuracy": 0.99875
+}
