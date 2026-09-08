@@ -6,6 +6,7 @@ using gradient descent and computing validation metrics.
 
 import numpy as np
 import pennylane as qml
+from pennylane import numpy as pnp  # PennyLane's numpy for autograd compatibility
 from typing import Dict
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
@@ -173,17 +174,26 @@ def train_model(
         # Update model parameters
         model.params = params
         
-        # Get predictions for all training samples
-        predictions = model.predict_batch(X_train)
-        
-        # Compute binary cross-entropy loss with epsilon to prevent log(0)
+        # Compute loss by iterating over training samples
+        # This avoids autograd issues with predict_batch
         epsilon = 1e-7
-        loss = -np.mean(
-            y_train * np.log(predictions + epsilon) + 
-            (1 - y_train) * np.log(1 - predictions + epsilon)
-        )
+        total_loss = 0.0
         
-        return loss
+        for i in range(len(X_train)):
+            # Get prediction for single sample
+            features = X_train[i]
+            label = y_train[i]
+            
+            # Execute circuit directly
+            pred = model.predict(features)
+            
+            # Compute binary cross-entropy for this sample
+            sample_loss = -(label * pnp.log(pred + epsilon) + 
+                           (1 - label) * pnp.log(1 - pred + epsilon))
+            total_loss += sample_loss
+        
+        # Return mean loss
+        return total_loss / len(X_train)
     
     # Training loop - iterate for specified number of epochs
     for epoch in range(epochs):

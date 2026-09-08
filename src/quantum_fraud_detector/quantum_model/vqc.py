@@ -45,6 +45,7 @@ class VariationalQuantumClassifier:
         
         self.n_qubits = n_qubits
         self.n_layers = n_layers
+        self.device_name = device_name  # Store device name for serialization
         self.device = qml.device(device_name, wires=n_qubits)
         self.params = None  # Shape: (n_layers, n_qubits, 3) for Rot gates
         
@@ -64,13 +65,16 @@ class VariationalQuantumClassifier:
         Notes:
             Parameters are initialized uniformly in the range [-π, π] following
             common practice for quantum circuit initialization.
+            Parameters are marked as trainable for PennyLane autodiff.
         """
         rng = np.random.RandomState(seed)
-        self.params = rng.uniform(
+        params_array = rng.uniform(
             low=-np.pi,
             high=np.pi,
             size=(self.n_layers, self.n_qubits, 3)
         )
+        # Convert to PennyLane array with requires_grad=True for autodiff
+        self.params = qml.numpy.array(params_array, requires_grad=True)
     
     def _circuit_definition(self, features: np.ndarray, params: np.ndarray) -> float:
         """Internal circuit definition used by QNode.
@@ -184,7 +188,8 @@ class VariationalQuantumClassifier:
         # Map expectation value from [-1, 1] to fraud score [0, 1]
         fraud_score = (expectation_value + 1) / 2
         
-        return float(fraud_score)
+        # Return as native type (handles both regular floats and autograd ArrayBox)
+        return fraud_score
     
     def predict_batch(self, features: np.ndarray) -> np.ndarray:
         """Run inference on multiple feature vectors.
@@ -281,8 +286,10 @@ class VariationalQuantumClassifier:
         save_path.mkdir(parents=True, exist_ok=True)
         
         # Save parameters array using numpy.save (binary format)
+        # Convert PennyLane array to regular numpy array for saving
         params_file = save_path / "model_params.npy"
-        np.save(str(params_file), self.params)
+        params_to_save = np.array(self.params) if hasattr(self.params, 'requires_grad') else self.params
+        np.save(str(params_file), params_to_save)
         
         # Save model configuration as JSON
         config = {
@@ -358,7 +365,9 @@ class VariationalQuantumClassifier:
         if not params_file.exists():
             raise FileNotFoundError(f"Parameters file not found: {params_file}")
         
-        self.params = np.load(str(params_file))
+        params_array = np.load(str(params_file))
+        # Convert to PennyLane array with requires_grad=True
+        self.params = qml.numpy.array(params_array, requires_grad=True)
         
         # Validate parameter shape
         expected_shape = (self.n_layers, self.n_qubits, 3)

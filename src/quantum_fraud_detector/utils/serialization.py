@@ -72,7 +72,7 @@ def save_model(
     config = {
         "n_qubits": model.n_qubits,
         "n_layers": model.n_layers,
-        "device_name": model.device_name
+        "device_name": model.device_name  # Now stored as attribute
     }
     config_path = os.path.join(save_dir, "model_config.json")
     with open(config_path, 'w') as f:

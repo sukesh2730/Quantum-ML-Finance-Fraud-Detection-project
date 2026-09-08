@@ -76,7 +76,7 @@ def main():
     # Configuration
     N_QUBITS = 4
     N_LAYERS = 2
-    EPOCHS = 30
+    EPOCHS = 15  # Reduced for faster training on quantum simulator
     LEARNING_RATE = 0.01
     TEST_SPLIT = 0.2
     MODEL_SAVE_DIR = "./saved_model"
@@ -88,10 +88,18 @@ def main():
     print(f"  - Learning Rate: {LEARNING_RATE}")
     print(f"  - Test Split: {TEST_SPLIT}")
     
-    # Step 1: Generate synthetic data
-    print("\n🔧 Step 1: Generating synthetic transaction data...")
+    # Step 1: Load or generate transaction data
+    print("\n🔧 Step 1: Loading transaction data...")
+    
+    # Option 1: Load real data (if available)
+    # Uncomment and modify the path below to use your real transaction data:
+    # df = pd.read_csv("./data/real_transactions.csv")
+    # Expected columns: amount, time_of_day, distance_from_home, merchant_category, is_fraud
+    
+    # Option 2: Generate synthetic data (default)
     df = generate_synthetic_data(n_samples=500, fraud_ratio=0.3, seed=42)
-    print(f"  ✓ Generated {len(df)} transactions")
+    
+    print(f"  ✓ Loaded {len(df)} transactions")
     print(f"    - Legitimate: {(df['is_fraud'] == 0).sum()}")
     print(f"    - Fraudulent: {(df['is_fraud'] == 1).sum()}")
     
