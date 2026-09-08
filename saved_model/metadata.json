@@ -1,5 +1,32 @@
 {
   "dataset": "OpenML Credit Card Fraud (ID 1597)",
-  "samples": 4000,
-  "test_accuracy": 0.99875
+  "real_data": true,
+  "features_used": [
+    "V17",
+    "V14",
+    "V12",
+    "V10"
+  ],
+  "n_features": 4,
+  "n_qubits": 4,
+  "n_layers": 2,
+  "total_samples": 984,
+  "fraud_samples": 492,
+  "legit_samples": 492,
+  "train_samples": 787,
+  "test_samples": 197,
+  "epochs": 50,
+  "learning_rate": 0.05,
+  "best_seed": 7,
+  "optimizer": "adam",
+  "threshold": 0.5,
+  "test_accuracy": 0.81,
+  "fraud_precision": 0.93,
+  "fraud_recall": 0.67,
+  "fraud_f1": 0.78,
+  "true_negatives": 94,
+  "false_positives": 5,
+  "false_negatives": 32,
+  "true_positives": 66,
+  "training_date": "2026-09-08 10:54:56.973841"
 }
