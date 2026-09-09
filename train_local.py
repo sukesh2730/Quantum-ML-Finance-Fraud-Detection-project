@@ -13,10 +13,10 @@ import pandas as pd
 from datetime import datetime
 from pathlib import Path
 
-from src.quantum_fraud_detector.preprocessing.preprocessor import TransactionPreprocessor
-from src.quantum_fraud_detector.quantum_model.vqc import VariationalQuantumClassifier
-from src.quantum_fraud_detector.training.trainer import train_model
-from src.quantum_fraud_detector.utils.serialization import save_model
+from quantum_fraud_detector.preprocessing.preprocessor import TransactionPreprocessor
+from quantum_fraud_detector.quantum_model.vqc import VariationalQuantumClassifier
+from quantum_fraud_detector.training.trainer import train_model
+from quantum_fraud_detector.utils.serialization import save_model
 
 
 def generate_synthetic_data(n_samples: int = 500, fraud_ratio: float = 0.3, seed: int = 42):
@@ -93,11 +93,11 @@ def main():
     
     # Option 1: Load real data (if available)
     # Uncomment and modify the path below to use your real transaction data:
-    # df = pd.read_csv("./data/real_transactions.csv")
+    df = pd.read_csv("./data/real_transactions.csv")
     # Expected columns: amount, time_of_day, distance_from_home, merchant_category, is_fraud
     
     # Option 2: Generate synthetic data (default)
-    df = generate_synthetic_data(n_samples=500, fraud_ratio=0.3, seed=42)
+    # df = generate_synthetic_data(n_samples=500, fraud_ratio=0.3, seed=42)
     
     print(f"  ✓ Loaded {len(df)} transactions")
     print(f"    - Legitimate: {(df['is_fraud'] == 0).sum()}")
