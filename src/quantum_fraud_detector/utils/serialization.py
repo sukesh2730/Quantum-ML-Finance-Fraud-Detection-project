@@ -140,8 +140,8 @@ def load_model(load_dir: str) -> Tuple[Any, Any, Dict[str, Any]]:
     # Reconstruct VQC with loaded configuration
     model = VariationalQuantumClassifier(
         n_qubits=config["n_qubits"],
-        n_layers=config["n_layers"],
-        device_name=config["device_name"]
+        n_layers=config["n_layers"]
+        # Note: device_name is not a parameter in current API
     )
     
     # Load parameters
@@ -152,7 +152,7 @@ def load_model(load_dir: str) -> Tuple[Any, Any, Dict[str, Any]]:
             "The model directory may be incomplete."
         )
     
-    model.params = np.load(params_path)
+    model.weights = np.load(params_path)
     
     # Load preprocessor
     preprocessor_path = os.path.join(load_dir, "preprocessor.pkl")
